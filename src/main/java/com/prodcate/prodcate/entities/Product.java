@@ -1,0 +1,27 @@
+package com.prodcate.prodcate.entities;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.UUID;
+
+@Entity
+@Data
+public class Product {
+    @GeneratedValue
+    UUID id;
+
+    String name;
+    String description;
+    int stock;
+    int
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    Category category;
+}
