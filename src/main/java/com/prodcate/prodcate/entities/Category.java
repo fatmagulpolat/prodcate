@@ -1,18 +1,18 @@
 package com.prodcate.prodcate.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
-@Entity
+
 @Data
-public class Category {
+@Entity
+public class Category extends BaseEntity {
 
-    @GeneratedValue
-    UUID id;
-    String name;
-    String description;
-
+    public String name;
+    public String description;
+    @OneToMany(mappedBy = "category")
+    public List<Product> products;
 }

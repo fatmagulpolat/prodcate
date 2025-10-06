@@ -10,18 +10,17 @@ import java.util.UUID;
 
 @Entity
 @Data
-public class Product {
+public class Product  extends BaseEntity{
+    @Id
     @GeneratedValue
     UUID id;
 
     String name;
     String description;
     int stock;
-    int
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    Category category;
+    public Category category;
 }
