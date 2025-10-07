@@ -1,6 +1,8 @@
 package com.prodcate.prodcate.services;
 
+import com.prodcate.prodcate.common.response.ResponseBase;
 import com.prodcate.prodcate.entities.Category;
+import com.prodcate.prodcate.exception.CategoryNotFoundException;
 import com.prodcate.prodcate.mapper.CategoryMapper;
 import com.prodcate.prodcate.repositories.CategoryRepository;
 import com.prodcate.prodcate.requests.category.CreateCategoryRequest;
@@ -31,27 +33,27 @@ public class CategoryService {
 
     public void updateCategory(String id, UpdateCategoryRequest categoryRequest){
         UUID categoryId = UUID.fromString(id);
-        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException());
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(id));
         category.setName(categoryRequest.getName());
         category.setDescription(categoryRequest.getDescription());
         categoryRepository.save(category);
     }
 
-    public List<CategoryResponse> getCategoryList(){
+    public ResponseBase<List<CategoryResponse>> getCategoryList(){
         List<Category> categories = categoryRepository.findAll();
         List<CategoryResponse> categoryResponse = categoryMapper.toCategoryResponseList(categories);
-        return categoryResponse;
+        return ResponseBase.success(categoryResponse) ;
     }
 
     public CategoryResponse getCategoryById(String id) {
         UUID categoryId = UUID.fromString(id);
-        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException());
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(id));
         return categoryMapper.toCategoryResponse(category);
     }
 
     public CategoryWithProductsResponse getCategoryWithProducts(String id) {
         UUID categoryId = UUID.fromString(id);
-        Category byIdWithProducts = categoryRepository.findByIdWithProducts(categoryId).orElseThrow(() -> new RuntimeException("hata buradan"));
+        Category byIdWithProducts = categoryRepository.findByIdWithProducts(categoryId).orElseThrow(() -> new CategoryNotFoundException(id));
 
         CategoryWithProductsResponse response = new CategoryWithProductsResponse();
         response.setDescription(byIdWithProducts.getDescription());

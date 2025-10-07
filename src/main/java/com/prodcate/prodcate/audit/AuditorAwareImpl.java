@@ -1,4 +1,4 @@
-package com.prodcate.prodcate.Audit;
+package com.prodcate.prodcate.audit;
 
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;

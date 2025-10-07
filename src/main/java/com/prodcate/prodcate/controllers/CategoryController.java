@@ -1,5 +1,6 @@
 package com.prodcate.prodcate.controllers;
 
+import com.prodcate.prodcate.common.response.ResponseBase;
 import com.prodcate.prodcate.requests.category.CreateCategoryRequest;
 import com.prodcate.prodcate.requests.category.UpdateCategoryRequest;
 import com.prodcate.prodcate.responses.category.CategoryResponse;
@@ -25,15 +26,15 @@ public class CategoryController{
        return ResponseEntity.ok(categoryResponse);
     }
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> getCategoryList(){
-        List<CategoryResponse> categoryList = categoryService.getCategoryList();
+    public ResponseEntity<ResponseBase<List<CategoryResponse>>> getCategoryList(){
+        ResponseBase<List<CategoryResponse>> categoryList = categoryService.getCategoryList();
         return ResponseEntity.ok(categoryList);
     };
 
     @GetMapping("/{id}/with-products")
-    public ResponseEntity<CategoryWithProductsResponse> getCategoryWithProducts(@PathVariable String id){
+    public ResponseEntity<ResponseBase<CategoryWithProductsResponse>> getCategoryWithProducts(@PathVariable String id){
         CategoryWithProductsResponse categoryWithProducts = categoryService.getCategoryWithProducts(id);
-        return ResponseEntity.ok(categoryWithProducts);
+        return ResponseEntity.ok(ResponseBase.success(categoryWithProducts));
     }
     @PostMapping
     public void create(@RequestBody CreateCategoryRequest categoryRequest){
